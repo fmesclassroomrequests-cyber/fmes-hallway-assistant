@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>FMES Hallway Assistant</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- PWA meta -->
+  <link rel="manifest" href="manifest.json" />
+  <meta name="theme-color" content="#C8A951" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- App Shell -->
+  <div id="app">
+
+    <!-- Header (5-tap admin unlock lives here) -->
+    <header id="app-header">
+      <div id="header-left">
+        <span id="header-menu-icon" class="icon icon-menu" aria-hidden="true"></span>
+      </div>
+      <div id="header-title-wrapper">
+        <h1 id="app-title">FMES Hallway Assistant</h1>
+      </div>
+      <div id="header-right">
+        <!-- reserved for future icons (notifications, etc.) -->
+      </div>
+    </header>
+
+    <!-- Out of Building Banner (teacher-facing, controlled by admin) -->
+    <div id="out-of-building-banner" class="banner banner-error" style="display:none;">
+      Mr. Michael is out of the building. Please contact the office for urgent needs.
+    </div>
+
+    <!-- Main Layout -->
+    <div id="layout">
+
+      <!-- Sidebar (Admin only, hidden until unlock) -->
+      <nav id="sidebar" class="sidebar" aria-hidden="true">
+        <div class="sidebar-header">
+          <h2>Admin Menu</h2>
+        </div>
+        <ul class="sidebar-list">
+          <li><button class="sidebar-link" data-view="admin-dashboard">Dashboard</button></li>
+          <li><button class="sidebar-link" data-view="admin-archive">Archive</button></li>
+          <li><button class="sidebar-link" data-view="admin-settings">Settings</button></li>
+          <li><button id="admin-logout-btn" class="sidebar-link sidebar-link-danger">Log Out</button></li>
+        </ul>
+      </nav>
+
+      <!-- Content Area -->
+      <main id="main-content">
+
+        <!-- VIEW: Home (Teacher) -->
+        <section id="view-home" class="view active-view">
+          <!-- Schedule Card -->
+          <section class="card" id="schedule-card">
+            <h2 class="card-title">Mr. Michael’s Schedule</h2>
+            <pre id="schedule-text" class="schedule-text">
+6:00–8:30  Bus Duty
+8:30–11:45 Hallway Support
+11:45–12:45 Lunch
+12:45–3:30 Hallway Support / Requests
+            </pre>
+          </section>
+
+          <!-- Home Actions -->
+          <section class="card" id="home-actions-card">
+            <h2 class="card-title">Hallway Support</h2>
+            <p class="card-subtitle">
+              Submit a request or review your recent requests.
+            </p>
+            <div class="button-row">
+              <button id="btn-new-request" class="btn-primary">Submit a Request</button>
+              <button id="btn-my-requests" class="btn-secondary">My Requests</button>
+            </div>
+          </section>
+        </section>
+
+        <!-- VIEW: New Request -->
+        <section id="view-new-request" class="view" style="display:none;">
+          <section class="card">
+            <h2 class="card-title">New Request</h2>
+
+            <form id="request-form">
+              <!-- Teacher Name -->
+              <div class="form-group">
+                <label for="teacher-name">Your Name</label>
+                <input
+                  type="text"
+                  id="teacher-name"
+                  name="teacher_name"
+                  class="input"
+                  placeholder="Enter your name"
+                  autocomplete="off"
+                  required
+                />
+                <small class="hint">Saved on this device after first submission.</small>
+              </div>
+
+              <!-- Location -->
+              <div class="form-group">
+                <label for="location">Location</label>
+                <input
+                  type="text"
+                  id="location"
+                  name="location"
+                  class="input"
+                  placeholder="Room 405, Hallway, Playground..."
+                  required
+                />
+              </div>
+
+              <!-- Request Type -->
+              <div class="form-group">
+                <label for="request-type">Request Type</label>
+                <select id="request-type" name="request_type" class="input" required>
+                  <option value="">Select a type</option>
+                  <option value="Work / Re-supply">Work / Re-supply</option>
+                  <option value="Event Notification">Event Notification</option>
+                </select>
+              </div>
+
+              <!-- Description -->
+              <div class="form-group">
+                <label for="description">Description (optional)</label>
+                <textarea
+                  id="description"
+                  name="description"
+                  class="input"
+                  rows="3"
+                  placeholder="Add any details that might help..."
+                ></textarea>
+              </div>
+
+              <!-- Photo Upload -->
+              <div class="form-group">
+                <label for="photo">Photo (optional)</label>
+                <input
+                  type="file"
+                  id="photo"
+                  name="photo"
+                  accept="image/*"
+                  class="input"
+                />
+                <small class="hint">You can use your camera or upload a photo.</small>
+              </div>
+
+              <!-- Actions -->
+              <div class="button-row">
+                <button type="submit" class="btn-primary">Submit Request</button>
+                <button type="button" id="btn-cancel-request" class="btn-secondary">Cancel</button>
+              </div>
+            </form>
+          </section>
+        </section>
+
+        <!-- VIEW: My Requests (Teacher) -->
+        <section id="view-my-requests" class="view" style="display:none;">
+          <section class="card">
+            <h2 class="card-title">My Requests</h2>
+            <p class="card-subtitle">
+              You’ll see your active and recently completed requests here.
+              Completed requests disappear after 48 hours.
+            </p>
+            <div id="my-requests-list" class="list">
+              <!-- Populated by app.js -->
+            </div>
+          </section>
+        </section>
+
+        <!-- VIEW: Request Detail + Chat (Teacher & Admin) -->
+        <section id="view-request-detail" class="view" style="display:none;">
+          <section class="card" id="request-detail-card">
+            <button id="btn-back-to-list" class="btn-secondary btn-small">&larr; Back</button>
+            <h2 class="card-title" id="detail-title">Request Detail</h2>
+
+            <div class="detail-row">
+              <span class="detail-label">Teacher:</span>
+              <span id="detail-teacher" class="detail-value"></span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Location:</span>
+              <span id="detail-location" class="detail-value"></span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Type:</span>
+              <span id="detail-type" class="detail-value"></span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Status:</span>
+              <span id="detail-status" class="badge"></span>
+            </div>
+            <div class="detail-row">
+              <span class="detail-label">Submitted:</span>
+              <span id="detail-submitted" class="detail-value"></span>
+            </div>
+
+            <div id="detail-photo-wrapper" class="detail-photo-wrapper" style="display:none;">
+              <span class="detail-label">Photo:</span>
+              <img id="detail-photo" alt="Request photo" />
+            </div>
+          </section>
+
+          <!-- Chat Section -->
+          <section class="card" id="chat-card">
+            <h3 class="card-title">Comments</h3>
+            <div id="chat-thread" class="chat-thread">
+              <!-- Chat bubbles injected here -->
+            </div>
+            <form id="chat-form" class="chat-form">
+              <input
+                type="text"
+                id="chat-input"
+                class="chat-input"
+                placeholder="Add a comment..."
+                autocomplete="off"
+              />
+              <button type="submit" class="btn-primary btn-chat-send">
+                Send
+              </button>
+            </form>
+          </section>
+        </section>
+
+        <!-- VIEW: Admin Dashboard (Hidden, Admin Only) -->
+        <section id="view-admin-dashboard" class="view" style="display:none;">
+          <section class="card">
+            <h2 class="card-title">Custodian Dashboard</h2>
+
+            <!-- Banner Toggle -->
+            <div class="form-group inline-group">
+              <label for="toggle-out-of-building">Out of Building Banner</label>
+              <label class="switch">
+                <input type="checkbox" id="toggle-out-of-building" />
+                <span class="slider"></span>
+              </label>
+            </div>
+
+            <!-- Schedule Editor -->
+            <div class="form-group">
+              <label for="admin-schedule-text">Schedule (shown to teachers)</label>
+              <textarea
+                id="admin-schedule-text"
+                class="input"
+                rows="5"
+              ></textarea>
+              <div class="button-row">
+                <button id="btn-save-schedule" class="btn-primary">Save Schedule</button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Admin Request List -->
+          <section class="card">
+            <h2 class="card-title">All Requests</h2>
+            <p class="card-subtitle">
+              Tap a request to update status or open details.
+            </p>
+            <div id="admin-requests-list" class="list">
+              <!-- Populated by app.js -->
+            </div>
+          </section>
+        </section>
+
+        <!-- VIEW: Admin Archive (Hidden, Admin Only) -->
+        <section id="view-admin-archive" class="view" style="display:none;">
+          <section class="card">
+            <h2 class="card-title">Archive</h2>
+            <p class="card-subtitle">
+              Completed requests older than 48 hours and historical data.
+            </p>
+            <div id="admin-archive-list" class="list">
+              <!-- Populated by app.js -->
+            </div>
+          </section>
+        </section>
+
+        <!-- VIEW: Admin Settings (Hidden, Admin Only) -->
+        <section id="view-admin-settings" class="view" style="display:none;">
+          <section class="card">
+            <h2 class="card-title">Admin Settings</h2>
+            <p class="card-subtitle">
+              Reserved for future configuration options.
+            </p>
+          </section>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Admin Login Modal (Hidden) -->
+  <div id="admin-login-overlay" class="modal-overlay" style="display:none;">
+    <div class="modal">
+      <h2>Admin Login</h2>
+      <p>Enter admin password to access the Custodian Dashboard.</p>
+      <div class="form-group">
+        <label for="admin-password-input">Password</label>
+        <input
+          type="password"
+          id="admin-password-input"
+          class="input"
+          autocomplete="off"
+        />
+      </div>
+      <div class="button-row">
+        <button id="admin-login-confirm" class="btn-primary">Unlock</button>
+        <button id="admin-login-cancel" class="btn-secondary">Cancel</button>
+      </div>
+      <p id="admin-login-error" class="error-text" style="display:none;">
+        Incorrect password. Please try again.
+      </p>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="app.js"></script>
+</body>
+</html>
