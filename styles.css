@@ -1,0 +1,386 @@
+/* ============================================================
+   FMES Hallway Assistant — Minimal Pro Theme
+   Version 1.0 — May 2026
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   1. CSS TOKENS (from your design system)
+   ------------------------------------------------------------ */
+:root {
+  --color-gold: #C8A951;
+  --color-black: #000000;
+  --color-white: #FFFFFF;
+  --color-gray-light: #F5F5F5;
+  --color-gray-medium: #666666;
+  --color-gray-border: #DDDDDD;
+  --color-gray-placeholder: #999999;
+  --color-error: #C94A4A;
+  --color-success: #4CAF50;
+
+  --font-family-base: "Inter", "Roboto", "Segoe UI", sans-serif;
+
+  --font-size-header: 20px;
+  --font-size-subheader: 16px;
+  --font-size-body: 14px;
+  --font-size-caption: 12px;
+
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+
+  --line-height-base: 1.4;
+  --letter-spacing-base: 0.2px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+
+  --radius-small: 6px;
+  --radius-medium: 8px;
+  --radius-large: 12px;
+
+  --shadow-modal: 0 4px 16px rgba(0,0,0,0.1);
+
+  --bp-mobile: 768px;
+  --bp-tablet: 1024px;
+  --bp-desktop: 1025px;
+}
+
+/* ------------------------------------------------------------
+   2. GLOBAL RESET
+   ------------------------------------------------------------ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family-base);
+  background: var(--color-gray-light);
+  color: var(--color-black);
+  line-height: var(--line-height-base);
+  letter-spacing: var(--letter-spacing-base);
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+input, textarea, select {
+  font-family: inherit;
+  font-size: var(--font-size-body);
+}
+
+/* ------------------------------------------------------------
+   3. APP LAYOUT
+   ------------------------------------------------------------ */
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+#layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+#main-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-4);
+}
+
+/* ------------------------------------------------------------
+   4. HEADER
+   ------------------------------------------------------------ */
+header {
+  height: 56px;
+  background: var(--color-white);
+  border-bottom: 1px solid var(--color-gray-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--space-4);
+}
+
+#app-title {
+  font-size: var(--font-size-header);
+  font-weight: var(--font-weight-bold);
+}
+
+/* ------------------------------------------------------------
+   5. BANNER (Out of Building)
+   ------------------------------------------------------------ */
+.banner {
+  padding: var(--space-3);
+  text-align: center;
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+}
+
+.banner-error {
+  background: var(--color-error);
+  color: var(--color-white);
+}
+
+/* ------------------------------------------------------------
+   6. SIDEBAR (Admin Only)
+   ------------------------------------------------------------ */
+.sidebar {
+  width: 240px;
+  background: var(--color-white);
+  border-right: 1px solid var(--color-gray-border);
+  padding: var(--space-4);
+  display: none;
+  flex-shrink: 0;
+}
+
+.sidebar-header {
+  margin-bottom: var(--space-4);
+}
+
+.sidebar-list {
+  list-style: none;
+}
+
+.sidebar-link {
+  width: 100%;
+  text-align: left;
+  padding: var(--space-3);
+  background: none;
+  border: none;
+  font-size: var(--font-size-body);
+  color: var(--color-black);
+  border-radius: var(--radius-medium);
+}
+
+.sidebar-link:hover {
+  background: var(--color-gray-light);
+}
+
+.sidebar-link-danger {
+  color: var(--color-error);
+}
+
+/* ------------------------------------------------------------
+   7. CARDS
+   ------------------------------------------------------------ */
+.card {
+  background: var(--color-white);
+  border: 1px solid var(--color-gray-border);
+  border-radius: var(--radius-medium);
+  padding: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.card-title {
+  font-size: var(--font-size-subheader);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--space-3);
+}
+
+.card-subtitle {
+  font-size: var(--font-size-body);
+  color: var(--color-gray-medium);
+  margin-bottom: var(--space-3);
+}
+
+/* ------------------------------------------------------------
+   8. BUTTONS
+   ------------------------------------------------------------ */
+.btn-primary {
+  background: var(--color-gold);
+  color: var(--color-white);
+  border: none;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-medium);
+  font-weight: var(--font-weight-medium);
+}
+
+.btn-primary:hover {
+  background: #B89A45;
+}
+
+.btn-secondary {
+  background: var(--color-white);
+  color: var(--color-gold);
+  border: 1px solid var(--color-gold);
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-medium);
+  font-weight: var(--font-weight-medium);
+}
+
+.btn-small {
+  padding: var(--space-2) var(--space-3);
+  font-size: var(--font-size-caption);
+}
+
+.button-row {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+/* ------------------------------------------------------------
+   9. INPUTS
+   ------------------------------------------------------------ */
+.input {
+  width: 100%;
+  padding: var(--space-3);
+  border: 1px solid var(--color-gray-border);
+  border-radius: var(--radius-medium);
+  background: var(--color-white);
+}
+
+.input:focus {
+  outline: none;
+  border: 1px solid var(--color-gold);
+}
+
+.hint {
+  font-size: var(--font-size-caption);
+  color: var(--color-gray-medium);
+  margin-top: var(--space-1);
+}
+
+/* ------------------------------------------------------------
+   10. LIST ITEMS
+   ------------------------------------------------------------ */
+.list-item {
+  padding: var(--space-4);
+  border-bottom: 1px solid #EEEEEE;
+}
+
+.list-item:hover {
+  background: #FAFAFA;
+}
+
+.title {
+  font-weight: var(--font-weight-medium);
+}
+
+.subtitle {
+  font-size: var(--font-size-caption);
+  color: var(--color-gray-medium);
+}
+
+/* ------------------------------------------------------------
+   11. BADGES
+   ------------------------------------------------------------ */
+.badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: var(--radius-small);
+  font-size: var(--font-size-caption);
+  border: 1px solid var(--color-gold);
+  color: var(--color-gold);
+}
+
+/* ------------------------------------------------------------
+   12. CHAT THREAD
+   ------------------------------------------------------------ */
+.chat-thread {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.bubble-left,
+.bubble-right {
+  max-width: 75%;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--radius-large);
+  font-size: var(--font-size-body);
+}
+
+.bubble-left {
+  background: var(--color-gray-light);
+  border: 1px solid var(--color-gray-border);
+  align-self: flex-start;
+}
+
+.bubble-right {
+  background: var(--color-white);
+  border: 1px solid var(--color-gold);
+  align-self: flex-end;
+}
+
+.timestamp-left,
+.timestamp-right {
+  font-size: var(--font-size-caption);
+  color: #888888;
+}
+
+.timestamp-left {
+  align-self: flex-start;
+}
+
+.timestamp-right {
+  align-self: flex-end;
+}
+
+/* ------------------------------------------------------------
+   13. CHAT INPUT
+   ------------------------------------------------------------ */
+.chat-form {
+  display: flex;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+.chat-input {
+  flex: 1;
+  padding: var(--space-3);
+  border: 1px solid var(--color-gray-border);
+  border-radius: var(--radius-medium);
+}
+
+.btn-chat-send {
+  padding: var(--space-3) var(--space-4);
+}
+
+/* ------------------------------------------------------------
+   14. MODAL (Admin Login)
+   ------------------------------------------------------------ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal {
+  background: var(--color-white);
+  padding: var(--space-6);
+  border-radius: var(--radius-large);
+  box-shadow: var(--shadow-modal);
+  width: 90%;
+  max-width: 360px;
+}
+
+.error-text {
+  color: var(--color-error);
+  margin-top: var(--space-2);
+}
+
+/* ------------------------------------------------------------
+   15. VIEW HANDLING
+   ------------------------------------------------------------ */
+.view {
+  display: none;
+}
+
+.active-view {
+  display: block;
+}
