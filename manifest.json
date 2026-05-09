@@ -1,0 +1,35 @@
+{
+  "name": "FMES Hallway Assistant",
+  "short_name": "Hallway Assist",
+  "description": "A fast, mobile-first PWA for teachers to submit hallway support requests and for custodial staff to manage them.",
+  "start_url": "/fmes-hallway-assistant/",
+  "scope": "/fmes-hallway-assistant/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FFFFFF",
+  "theme_color": "#C8A951",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/maskable-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icons/maskable-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
