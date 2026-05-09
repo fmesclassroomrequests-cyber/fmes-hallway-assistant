@@ -188,9 +188,12 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     if (visible.length === 0) {
-      myRequestsList.innerHTML = `<p class="subtitle">No active or recent requests yet.</p>`;
-      return;
-    }
+  myRequestsList.innerHTML = `
+    <p class="subtitle">No active or recent requests yet.</p>
+    <button class="nav-button" onclick="window.location.href='index.html'">🏠 Home</button>
+  `;
+  return;
+}
 
     visible.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
