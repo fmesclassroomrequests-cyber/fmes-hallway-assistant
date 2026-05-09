@@ -187,18 +187,10 @@ document.addEventListener("DOMContentLoaded", () => {
       return r.status !== "Archived";
     });
 
-    // Always show Home button at top of My Requests
-myRequestsList.innerHTML = `
-  <button class="nav-button" onclick="window.location.href='index.html'">🏠 Home</button>
-`;    
-    if (visible.length === 0) {
-  myRequestsList.innerHTML = `
-    <p class="subtitle">No active or recent requests yet.</p>
-    <button class="nav-button" onclick="window.location.href='index.html'">🏠 Home</button>
-  `;
+if (visible.length === 0) {
+  myRequestsList.innerHTML = `<p class="subtitle">No active or recent requests yet.</p>`;
   return;
 }
-
     visible.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
     visible.forEach(req => {
