@@ -390,15 +390,15 @@ header {
    ------------------------------------------------------------ */
 .nav-button-fixed {
   position: fixed;
-  top: 8px;           /* fits inside the 56px header */
-  left: 12px;
+  top: 10px;
+  left: 10px;
   z-index: 9999;
   background-color: #C8A951;
   color: white;
   border: none;
   border-radius: 6px;
-  padding: 4px 10px;
-  font-size: 0.85em;
+  padding: 6px 10px;
+  font-size: 1.1em;   /* icon size */
   font-weight: 600;
   box-shadow: 0 2px 4px rgba(0,0,0,0.25);
 }
