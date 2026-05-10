@@ -418,6 +418,63 @@ btnBackToList.addEventListener("click", () => {
     renderChatThread(currentRequestId);
 });
 
+// ----- SECRET ADMIN TAP -----
+
+header.addEventListener("click", () => {
+
+  headerTapCount++;
+
+  // reset timer every tap
+  clearTimeout(headerTapTimer);
+
+  headerTapTimer = setTimeout(() => {
+    headerTapCount = 0;
+  }, 1500);
+
+  // 5 taps triggers admin login
+  if (headerTapCount >= 5) {
+
+    headerTapCount = 0;
+
+    adminLoginOverlay.style.display = "flex";
+
+    adminPasswordInput.value = "";
+    adminLoginError.textContent = "";
+
+    adminPasswordInput.focus();
+  }
+});
+
+// ----- ADMIN LOGIN -----
+
+adminLoginConfirm.addEventListener("click", async () => {
+
+  const enteredHash =
+    simpleHash(adminPasswordInput.value);
+
+  if (enteredHash === ADMIN_PASSWORD_HASH) {
+
+    isAdmin = true;
+
+    adminLoginOverlay.style.display = "none";
+
+    sidebar.style.display = "block";
+
+    await renderAdminRequests();
+
+    switchView("adminDashboard");
+
+  } else {
+
+    adminLoginError.textContent =
+      "Incorrect password.";
+  }
+});
+
+adminLoginCancel.addEventListener("click", () => {
+
+  adminLoginOverlay.style.display = "none";
+});
 // ----- INITIALIZATION -----
   ensureTeacherNameLoaded();
   loadSchedule();
