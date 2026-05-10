@@ -410,10 +410,11 @@ header {
 /* Mobile adjustments */
 @media (max-width: 600px) {
   .nav-button-fixed {
-    top: 6px;
+    top: 8px;
     left: 8px;
-    padding: 3px 8px;
-    font-size: 0.75em;
+    padding: 4px 8px;
+    font-size: 1em;
     border-radius: 5px;
   }
 }
+
