@@ -291,7 +291,8 @@ chatForm.addEventListener("submit", async (e) => {
 
         const title = document.createElement("div");
         title.className = "title";
-        title.textContent = `${req.room} – ${req.category}`;
+        title.textContent =
+  `${req.location} – ${req.requestType}`;
 
         const subtitle = document.createElement("div");
         subtitle.className = "subtitle";
@@ -313,8 +314,8 @@ chatForm.addEventListener("submit", async (e) => {
     : await apiGetRequestsForTeacher(getCurrentTeacherName());
 
   const req = requests.find(r =>
-    String(r.request_id || r.id) === String(requestId)
-  );
+  String(r.id) === String(requestId)
+);
 
   if (!req) {
     alert("Request not found.");
