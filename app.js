@@ -173,6 +173,19 @@ async function renderMyRequests() {
   const response = await loadRequests();
   const requests = response.data || [];
 
+  const normalized = requests.map(r => ({
+    id: r.request_id,
+    teacherName: r.teacher_id,
+    location: r.room,
+    requestType: r.category,
+    description: r.description,
+    status: r.status,
+    createdAt: r.created_at,
+    updatedAt: r.updated_at,
+    priority: r.priority,
+    hasPhotos: r.has_photos
+}));
+  
   const now = Date.now();
   myRequestsList.innerHTML = "";
 
