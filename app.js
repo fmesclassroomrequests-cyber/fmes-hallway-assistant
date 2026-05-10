@@ -325,7 +325,8 @@ btnBackToList.addEventListener("click", () => {
 requestForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     const requestType = document.getElementById("request-type").value;
-    const description = document.getElementById("request-description").value;
+    const description =
+  document.getElementById("request-description")?.value || "";
 
     const requestId = await apiAddRequest({
         teacherName: getCurrentTeacherName(),
