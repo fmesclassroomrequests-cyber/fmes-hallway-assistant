@@ -318,11 +318,20 @@
   </div>
 
   <!-- Scripts -->
-  <script src="app.js"></script>
+ <script src="app.js"></script>
 <script>
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker.register("/fmes-hallway-assistant/service-worker.js");
   }
 </script>
+
+<!-- Sidebar Toggle Script -->
+<script>
+  document.getElementById("menuToggle").addEventListener("click", () => {
+    document.getElementById("sidebar").classList.toggle("hidden");
+  });
+</script>
+
 </body>
 </html>
+
