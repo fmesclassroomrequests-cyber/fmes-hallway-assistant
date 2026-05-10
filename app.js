@@ -247,11 +247,12 @@ chatForm.addEventListener("submit", async (e) => {
       .forEach(req => {
         const item = document.createElement("div");
         item.className = "list-item";
-        item.dataset.requestId = req.request_id;
+        item.dataset.requestId = req.id;
 
         const title = document.createElement("div");
         title.className = "title";
-        title.textContent = `${req.room} – ${req.category}`;
+       title.textContent =
+        `${req.location} – ${req.requestType}`;
 
         const subtitle = document.createElement("div");
         subtitle.className = "subtitle";
@@ -265,7 +266,7 @@ chatForm.addEventListener("submit", async (e) => {
         item.appendChild(subtitle);
         item.appendChild(badge);
 
-        item.addEventListener("click", () => openRequestDetail(req.request_id, true));
+        item.addEventListener("click", () => openRequestDetail(req.id, false));
         adminRequestsList.appendChild(item);
       });
   }
@@ -302,6 +303,43 @@ chatForm.addEventListener("submit", async (e) => {
         adminArchiveList.appendChild(item);
       });
   }
+
+  async function openRequestDetail(requestId, adminMode = false) {
+
+  currentRequestId = requestId;
+
+  const requests = adminMode
+    ? await callBackend({ action: "getAllRequests" })
+    : await apiGetRequestsForTeacher(getCurrentTeacherName());
+
+  const req = requests.find(r =>
+    String(r.request_id || r.id) === String(requestId)
+  );
+
+  if (!req) {
+    alert("Request not found.");
+    return;
+  }
+
+  detailTeacher.textContent =
+    req.teacher_id || req.teacherName || "";
+
+  detailLocation.textContent =
+    req.room || req.location || "";
+
+  detailType.textContent =
+    req.category || req.requestType || "";
+
+  detailStatus.textContent =
+    req.status || "";
+
+  detailSubmitted.textContent =
+    formatTimestamp(req.created_at || req.createdAt);
+
+  await renderChatThread(requestId);
+
+  switchView("requestDetail");
+}
 // ----- BUTTONS / EVENT LISTENERS -----
 btnNewRequest.addEventListener("click", () => {
     saveTeacherNameIfNeeded();
