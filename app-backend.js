@@ -4,18 +4,40 @@
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxuxduw6BYOhoxx2wX2IRW4X0U9yk_YTrW0CqwK6AcfhIi-8UnngrgubvwT4BkfAxxdRQ/exec";
 
 async function callBackend(payload) {
-  const res = await fetch(WEB_APP_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
-  });
 
-  const json = await res.json();
-  if (!json.success) {
-    console.error("Backend error:", json.error);
-    throw new Error(json.error || "Backend error");
+  try {
+
+    const formData = new URLSearchParams();
+
+    formData.append(
+      "payload",
+      JSON.stringify(payload)
+    );
+
+    const res = await fetch(WEB_APP_URL, {
+      method: "POST",
+      body: formData
+    });
+
+    const text = await res.text();
+
+    console.log("RAW BACKEND RESPONSE:", text);
+
+    const json = JSON.parse(text);
+
+    if (!json.success) {
+      console.error("Backend error:", json.error);
+      throw new Error(json.error || "Backend error");
+    }
+
+    return json.data;
+
+  } catch (err) {
+
+    console.error("callBackend failed:", err);
+
+    throw err;
   }
-  return json.data;
 }
 
 // ----- REQUESTS -----
