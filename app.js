@@ -417,6 +417,10 @@ if (visible.length === 0) {
       isAdmin = true;
       hideAdminLogin();
       sidebar.style.display = "block";
+
+      // SHOW HAMBURGER WHEN ADMIN LOGS IN
+      document.getElementById("menuToggle").style.display = "block";
+
       switchView("adminDashboard");
       renderAdminRequests();
       renderAdminArchive();
@@ -425,11 +429,16 @@ if (visible.length === 0) {
     }
   }
 
-  function handleAdminLogout() {
-    isAdmin = false;
-    sidebar.style.display = "none";
-    switchView("home");
-  }
+ function handleAdminLogout() {
+  isAdmin = false;
+  sidebar.style.display = "none";
+
+  // HIDE HAMBURGER WHEN ADMIN LOGS OUT
+  document.getElementById("menuToggle").style.display = "none";
+
+  switchView("home");
+}
+
 
   function handleHeaderTap() {
     headerTapCount++;
