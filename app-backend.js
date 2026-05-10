@@ -1,7 +1,7 @@
 // FMES Hallway Assistant - app-backend.js
 // Backend API helpers for Google Apps Script web app
 
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycby9xK3F8NNVPTqjmqCG10m8kMQH0KDmSfHsaFEtLi8yjJVWU3tMZbSAe4S-5WDcfrlanQ/exec";
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyA30DezUVV0Qh__12_NOJkmYkZ4K1OCckNCyIbVwzuwc3JZg3BTTVYyg2aOvJQs48Piw/exec";
 
 async function callBackend(payload) {
   const res = await fetch(WEB_APP_URL, {
