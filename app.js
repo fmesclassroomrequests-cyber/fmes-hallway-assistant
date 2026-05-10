@@ -309,9 +309,8 @@ chatForm.addEventListener("submit", async (e) => {
 
   currentRequestId = requestId;
 
-  const requests = adminMode
-    ? await callBackend({ action: "getAllRequests" })
-    : await apiGetRequestsForTeacher(getCurrentTeacherName());
+  const requests =
+  await apiGetRequestsForTeacher(getCurrentTeacherName());
 
   const req = requests.find(r =>
   String(r.id) === String(requestId)
