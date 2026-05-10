@@ -54,6 +54,39 @@ document.addEventListener("DOMContentLoaded", () => {
   const detailPhotoWrapper = document.getElementById("detail-photo-wrapper");
   const detailPhoto = document.getElementById("detail-photo");
 
+  // ----- FORM SUBMISSIONS -----
+requestForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const teacherName = getCurrentTeacherName();
+  const location = document.getElementById("location").value;
+  const requestType = document.getElementById("request-type").value;
+  const description = document.getElementById("description").value;
+
+  const requestId = await apiAddRequest({
+    teacherName,
+    location,
+    requestType,
+    description,
+    photoDataUrl: null
+  });
+
+  await renderMyRequests();
+  switchView("myRequests");
+});
+
+chatForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  if (!chatInput.value.trim()) return;
+  await apiAddChatMessage({
+    requestId: currentRequestId,
+    sender: "teacher",
+    text: chatInput.value.trim()
+  });
+  chatInput.value = "";
+  renderChatThread(currentRequestId);
+});
+  
   // ----- STATE -----
   let isAdmin = false;
   let headerTapCount = 0;
