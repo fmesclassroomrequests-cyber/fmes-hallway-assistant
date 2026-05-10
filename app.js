@@ -81,14 +81,9 @@ document.addEventListener("DOMContentLoaded", () => {
     return hash;
   }
 
-  function loadRequests() {
-    const raw = localStorage.getItem(STORAGE_KEYS.requests);
-    if (!raw) return [];
-    try {
-      return JSON.parse(raw);
-    } catch {
-      return [];
-    }
+   async function loadRequests() {
+    const teacherName = getCurrentTeacherName();
+    return await apiGetRequestsForTeacher(teacherName);
   }
 
   function saveRequests(requests) {
@@ -171,9 +166,9 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ----- REQUEST RENDERING -----
-  function renderMyRequests() {
+  async function renderMyRequests() {
     const teacherName = getCurrentTeacherName();
-    const requests = loadRequests();
+    const requests = await loadRequests();
     const now = Date.now();
     myRequestsList.innerHTML = "";
 
@@ -461,9 +456,9 @@ if (visible.length === 0) {
     switchView("newRequest");
   });
 
-  btnMyRequests.addEventListener("click", () => {
+   btnMyRequests.addEventListener("click", async () => {
     saveTeacherNameIfNeeded();
-    renderMyRequests();
+    await renderMyRequests();
     switchView("myRequests");
   });
 
@@ -498,9 +493,14 @@ if (visible.length === 0) {
 
     const requests = loadRequests();
 
-    const finishSave = () => {
-      requests.push(newReq);
-      saveRequests(requests);
+        const finishSave = async () => {
+      await apiAddRequest({
+        teacherName,
+        location,
+        requestType,
+        description,
+        photoDataUrl: newReq.photoDataUrl,
+      });
 
       requestForm.reset();
       teacherNameInput.value = teacherName;
