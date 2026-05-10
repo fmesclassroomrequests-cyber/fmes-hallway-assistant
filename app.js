@@ -269,3 +269,58 @@ document.addEventListener("DOMContentLoaded", () => {
         adminArchiveList.appendChild(item);
       });
   }
+// ----- BUTTONS / EVENT LISTENERS -----
+btnNewRequest.addEventListener("click", () => {
+    saveTeacherNameIfNeeded();
+    switchView("newRequest");
+});
+
+btnMyRequests.addEventListener("click", () => {
+    saveTeacherNameIfNeeded();
+    renderMyRequests();
+    switchView("myRequests");
+});
+
+btnCancelRequest.addEventListener("click", () => {
+    switchView("home");
+});
+
+btnBackToList.addEventListener("click", () => {
+    switchView(isAdmin ? "adminDashboard" : "myRequests");
+});
+
+requestForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const requestType = document.getElementById("request-type").value;
+    const description = document.getElementById("request-description").value;
+
+    const requestId = await apiAddRequest({
+        teacherName: getCurrentTeacherName(),
+        location: document.getElementById("request-location").value,
+        requestType,
+        description,
+        photoDataUrl: null
+    });
+
+    await renderMyRequests();
+    switchView("myRequests");
+});
+
+chatForm.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    if (!chatInput.value.trim()) return;
+    await apiAddChatMessage({
+        requestId: currentRequestId,
+        sender: "teacher",
+        text: chatInput.value.trim()
+    });
+    chatInput.value = "";
+    renderChatThread(currentRequestId);
+});
+
+// ----- INITIALIZATION -----
+  ensureTeacherNameLoaded();
+  loadSchedule();
+  loadBannerState();
+  switchView("home");
+});
