@@ -265,7 +265,7 @@ chatForm.addEventListener("submit", async (e) => {
         item.appendChild(subtitle);
         item.appendChild(badge);
 
-        item.addEventListener("click", () => openRequestDetail(req.request_id, false)
+        item.addEventListener("click", () => openRequestDetail(req.request_id, false));
         adminRequestsList.appendChild(item);
       });
   }
