@@ -418,3 +418,46 @@ header {
   }
 }
 
+/* ============================
+   ADMIN SIDEBAR (COLLAPSIBLE)
+   ============================ */
+
+/* Sidebar base */
+.sidebar {
+  width: 240px;
+  background: var(--color-white);
+  border-right: 1px solid var(--color-gray-border);
+  position: fixed;
+  top: 56px; /* below header */
+  left: 0;
+  height: calc(100% - 56px);
+  overflow-y: auto;
+  transition: transform 0.3s ease;
+  z-index: 9998;
+}
+
+/* Hidden state (slide off-screen) */
+.sidebar.hidden {
+  transform: translateX(-100%);
+}
+
+/* Hamburger toggle button */
+.menu-toggle {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  background: #C8A951;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 1.2em;
+  z-index: 10000;
+}
+
+/* Hide toggle button on desktop */
+@media (min-width: 800px) {
+  .menu-toggle {
+    display: none;
+  }
+}
