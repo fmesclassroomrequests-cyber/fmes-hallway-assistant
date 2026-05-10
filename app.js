@@ -251,7 +251,7 @@ chatForm.addEventListener("submit", async (e) => {
 
         const title = document.createElement("div");
         title.className = "title";
-        title.textContent =  ${req.room} – ${req.category}`;
+        title.textContent =  `${req.room} – ${req.category}`;
        
         const subtitle = document.createElement("div");
         subtitle.className = "subtitle";
