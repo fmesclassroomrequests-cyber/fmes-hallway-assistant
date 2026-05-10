@@ -322,25 +322,7 @@ btnBackToList.addEventListener("click", () => {
     switchView(isAdmin ? "adminDashboard" : "myRequests");
 });
 
-requestForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const requestType = document.getElementById("request-type").value;
-    const description =
-  document.getElementById("request-description")?.value || "";
-
-    const requestId = await apiAddRequest({
-        teacherName: getCurrentTeacherName(),
-        location: document.getElementById("request-location").value,
-        requestType,
-        description,
-        photoDataUrl: null
-    });
-
-    await renderMyRequests();
-    switchView("myRequests");
-});
-
-chatForm.addEventListener("submit", async (e) => {
+  chatForm.addEventListener("submit", async (e) => {
     e.preventDefault();
     if (!chatInput.value.trim()) return;
     await apiAddChatMessage({
