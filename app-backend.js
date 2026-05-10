@@ -51,16 +51,18 @@ async function apiGetRequestsForTeacher(teacherName) {
   });
 
   return data.map(r => ({
-    id: String(r.request_id),
-    teacherName: r.teacher_id,
-    location: r.room,
-    requestType: r.category,
-    description: r.description,
-    status: r.status,
-    createdAt: r.created_at,
-    completedAt: r.status === "Completed" ? r.updated_at : null,
-    // chat + photos loaded separately if needed
-  }));
+  id: String(r.request_id || ""),
+  teacherName: r.teacher_id || "Unknown Teacher",
+  location: r.room || "Unknown Room",
+  requestType: r.category || "General Request",
+  description: r.description || "",
+  status: r.status || "New",
+  createdAt: r.created_at || null,
+  completedAt:
+    r.status === "Completed"
+      ? r.updated_at || null
+      : null,
+}));
 }
 
 async function apiAddRequest({ teacherName, location, requestType, description, photoDataUrl }) {
