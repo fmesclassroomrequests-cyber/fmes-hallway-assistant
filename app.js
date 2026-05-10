@@ -238,3 +238,34 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   async function renderAdminArchive() {
+    const requests = await callBackend({ action: "getAllRequests" });
+    adminArchiveList.innerHTML = "";
+
+    const archived = requests.filter(r => r.status === "Archived");
+
+    if (archived.length === 0) {
+      adminArchiveList.innerHTML = `<p class="subtitle">No archived requests yet.</p>`;
+      return;
+    }
+
+    archived
+      .sort((a, b) => new Date(b.updated_at || b.created_at) - new Date(a.updated_at || a.created_at))
+      .forEach(req => {
+        const item = document.createElement("div");
+        item.className = "list-item";
+        item.dataset.requestId = req.request_id;
+
+        const title = document.createElement("div");
+        title.className = "title";
+        title.textContent = `${req.room} – ${req.category}`;
+
+        const subtitle = document.createElement("div");
+        subtitle.className = "subtitle";
+        subtitle.textContent = `${req.teacher_id} • Completed: ${formatTimestamp(req.updated_at)}`;
+
+        item.appendChild(title);
+        item.appendChild(subtitle);
+
+        adminArchiveList.appendChild(item);
+      });
+  }
