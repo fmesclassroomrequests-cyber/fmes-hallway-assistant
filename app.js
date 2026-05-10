@@ -63,6 +63,23 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const ADMIN_PASSWORD_HASH = simpleHash("912HallBoss!!"); // not cryptographically strong, but fine for this use
 
+  // ----- BACKEND CONFIG -----
+  const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxJIiKi0TYFnTWcGqD8Q0Vn2TBS2Xrgtm4mT3tTHxBrMYj2ifjaeUQCWCN6PhyC-Kbx9A/exec";
+
+  async function callBackend(payload) {
+    const res = await fetch(WEB_APP_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    });
+    const json = await res.json();
+    if (!json.success) {
+      console.error("Backend error:", json.error);
+      throw new Error(json.error || "Backend error");
+    }
+    return json.data;
+  }
+  
   // ----- STORAGE KEYS -----
   const STORAGE_KEYS = {
     teacherName: "fmes_teacher_name",
@@ -72,23 +89,28 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   // ----- UTILITIES -----
-  function simpleHash(str) {
-    let hash = 0;
-    for (let i = 0; i < str.length; i++) {
-      hash = (hash << 5) - hash + str.charCodeAt(i);
-      hash |= 0;
-    }
-    return hash;
-  }
+  async function loadRequestsFromBackend() {
+    const teacherName = getCurrentTeacherName();
+    if (!teacherName) return [];
 
-  function loadRequests() {
-    const raw = localStorage.getItem(STORAGE_KEYS.requests);
-    if (!raw) return [];
-    try {
-      return JSON.parse(raw);
-    } catch {
-      return [];
-    }
+    const data = await callBackend({
+      action: "getRequestsForTeacher",
+      teacher_id: teacherName,
+    });
+
+    // Map backend shape → frontend shape
+    return data.map(r => ({
+      id: String(r.request_id),
+      teacherName: r.teacher_id,
+      location: r.room,
+      requestType: r.category,
+      description: r.description,
+      status: r.status,
+      createdAt: r.created_at,
+      completedAt: r.status === "Completed" ? r.updated_at : null,
+      messages: [],          // will be loaded separately
+      photoDataUrl: null,    // will be loaded separately
+    }));
   }
 
   function saveRequests(requests) {
