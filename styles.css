@@ -445,7 +445,8 @@ header {
 .menu-toggle {
   position: fixed;
   top: 10px;
-  left: 10px;
+  right: 10px;   /* moved to the right */
+  left: auto;    /* stop fighting with the Home button */
   background: #C8A951;
   color: white;
   border: none;
@@ -453,6 +454,7 @@ header {
   padding: 6px 10px;
   font-size: 1.2em;
   z-index: 10000;
+  display: none; /* hidden by default until admin login */
 }
 
 /* Hide toggle button on desktop */
