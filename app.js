@@ -166,54 +166,59 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // ----- REQUEST RENDERING -----
-  async function renderMyRequests() {
-    const teacherName = getCurrentTeacherName();
-    const requests = await loadRequests();
-    const now = Date.now();
-    myRequestsList.innerHTML = "";
+async function renderMyRequests() {
+  const teacherName = getCurrentTeacherName();
 
-    const mine = requests.filter(r => r.teacherName === teacherName);
-    const visible = mine.filter(r => {
-      if (r.status === "Completed" && r.completedAt) {
-        const completedTime = new Date(r.completedAt).getTime();
-        const diffHours = (now - completedTime) / (1000 * 60 * 60);
-        return diffHours <= 48;
-      }
-      return r.status !== "Archived";
-    });
+  // FIX: extract the array from the backend response
+  const response = await loadRequests();
+  const requests = response.data || [];
 
-if (visible.length === 0) {
-  myRequestsList.innerHTML = `<p class="subtitle">No active or recent requests yet.</p>`;
-  return;
-}
-    visible.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  const now = Date.now();
+  myRequestsList.innerHTML = "";
 
-    visible.forEach(req => {
-      const item = document.createElement("div");
-      item.className = "list-item";
-      item.dataset.requestId = req.id;
+  const mine = requests.filter(r => r.teacherName === teacherName);
+  const visible = mine.filter(r => {
+    if (r.status === "Completed" && r.completedAt) {
+      const completedTime = new Date(r.completedAt).getTime();
+      const diffHours = (now - completedTime) / (1000 * 60 * 60);
+      return diffHours <= 48;
+    }
+    return r.status !== "Archived";
+  });
 
-      const title = document.createElement("div");
-      title.className = "title";
-      title.textContent = `${req.location} – ${req.requestType}`;
-
-      const subtitle = document.createElement("div");
-      subtitle.className = "subtitle";
-      subtitle.textContent = formatTimestamp(req.createdAt);
-
-      const badge = document.createElement("span");
-      badge.className = "badge";
-      badge.textContent = req.status || "New";
-
-      item.appendChild(title);
-      item.appendChild(subtitle);
-      item.appendChild(badge);
-
-      item.addEventListener("click", () => openRequestDetail(req.id, false));
-
-      myRequestsList.appendChild(item);
-    });
+  if (visible.length === 0) {
+    myRequestsList.innerHTML = `<p class="subtitle">No active or recent requests yet.</p>`;
+    return;
   }
+
+  visible.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+  visible.forEach(req => {
+    const item = document.createElement("div");
+    item.className = "list-item";
+    item.dataset.requestId = req.id;
+
+    const title = document.createElement("div");
+    title.className = "title";
+    title.textContent = `${req.location} – ${req.requestType}`;
+
+    const subtitle = document.createElement("div");
+    subtitle.className = "subtitle";
+    subtitle.textContent = formatTimestamp(req.createdAt);
+
+    const badge = document.createElement("span");
+    badge.className = "badge";
+    badge.textContent = req.status || "New";
+
+    item.appendChild(title);
+    item.appendChild(subtitle);
+    item.appendChild(badge);
+
+    item.addEventListener("click", () => openRequestDetail(req.id, false));
+    myRequestsList.appendChild(item);
+  });
+}
+
 
   function renderAdminRequests() {
     const requests = loadRequests();
