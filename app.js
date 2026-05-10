@@ -338,6 +338,49 @@ chatForm.addEventListener("submit", async (e) => {
 
   switchView("requestDetail");
 }
+  async function renderChatThread(requestId) {
+
+  const messages = await apiGetChatForRequest(requestId);
+
+  chatThread.innerHTML = "";
+
+  if (!messages.length) {
+    chatThread.innerHTML =
+      `<p class="subtitle">No comments yet.</p>`;
+    return;
+  }
+
+  messages.forEach(msg => {
+
+    const wrapper = document.createElement("div");
+
+    wrapper.className =
+      msg.sender === "teacher"
+        ? "chat-row-right"
+        : "chat-row-left";
+
+    const bubble = document.createElement("div");
+
+    bubble.className =
+      msg.sender === "teacher"
+        ? "chat-bubble-right"
+        : "chat-bubble-left";
+
+    bubble.textContent = msg.text;
+
+    const timestamp = document.createElement("div");
+    timestamp.className = "chat-timestamp";
+    timestamp.textContent =
+      formatTimestamp(msg.timestamp);
+
+    wrapper.appendChild(bubble);
+    wrapper.appendChild(timestamp);
+
+    chatThread.appendChild(wrapper);
+  });
+
+  chatThread.scrollTop = chatThread.scrollHeight;
+}
 // ----- BUTTONS / EVENT LISTENERS -----
 btnNewRequest.addEventListener("click", () => {
     saveTeacherNameIfNeeded();
