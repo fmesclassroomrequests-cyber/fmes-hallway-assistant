@@ -290,9 +290,8 @@ chatForm.addEventListener("submit", async (e) => {
 
         const title = document.createElement("div");
         title.className = "title";
-        title.textContent =
-  `${req.location} – ${req.requestType}`;
-
+        title.textContent = `${req.location} – ${req.requestType}`;
+  
         const subtitle = document.createElement("div");
         subtitle.className = "subtitle";
         subtitle.textContent = `${req.teacher_id} • Completed: ${formatTimestamp(req.updated_at)}`;
