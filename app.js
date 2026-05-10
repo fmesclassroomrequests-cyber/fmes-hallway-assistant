@@ -510,13 +510,14 @@ if (visible.length === 0) {
     if (photoInput.files && photoInput.files[0]) {
       const file = photoInput.files[0];
       const reader = new FileReader();
-      reader.onload = () => {
-        newReq.photoDataUrl = reader.result;
-        finishSave();
-      };
+     reader.onload = async () => {
+      newReq.photoDataUrl = reader.result;
+      await finishSave();
+    };
+
       reader.readAsDataURL(file);
     } else {
-      finishSave();
+      await finishSave();
     }
   });
 
