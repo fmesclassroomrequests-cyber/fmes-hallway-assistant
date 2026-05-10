@@ -202,24 +202,29 @@ chatForm.addEventListener("submit", async (e) => {
       return;
     }
 
-    visible.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+   visible.sort((a, b) =>
+  new Date(b.created_at || b.createdAt) -
+  new Date(a.created_at || a.createdAt)
+);
 
-    visible.forEach(req => {
-      const item = document.createElement("div");
-      item.className = "list-item";
-      item.dataset.requestId = req.request_id;
+visible.forEach(req => {
+  const item = document.createElement("div");
+  item.className = "list-item";
+  item.dataset.requestId = req.request_id;
 
-      const title = document.createElement("div");
-      title.className = "title";
-      title.textContent = `${req.room} – ${req.category}`;
+  const title = document.createElement("div");
+  title.className = "title";
+  title.textContent = `${req.room || req.location} – ${req.category || req.requestType}`;
 
-      const subtitle = document.createElement("div");
-      subtitle.className = "subtitle";
-      subtitle.textContent = formatTimestamp(req.createdAt);
+  const subtitle = document.createElement("div");
+  subtitle.className = "subtitle";
+  subtitle.textContent = formatTimestamp(
+    req.created_at || req.createdAt
+  );
 
-      const badge = document.createElement("span");
-      badge.className = "badge";
-      badge.textContent = req.status || "New";
+  const badge = document.createElement("span");
+  badge.className = "badge";
+  badge.textContent = req.status || "New";
 
       item.appendChild(title);
       item.appendChild(subtitle);
