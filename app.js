@@ -252,7 +252,7 @@ chatForm.addEventListener("submit", async (e) => {
         const title = document.createElement("div");
         title.className = "title";
        title.textContent =
-        `${req.location} – ${req.requestType}`;
+        ${req.room} – ${req.category}`;
 
         const subtitle = document.createElement("div");
         subtitle.className = "subtitle";
@@ -266,7 +266,7 @@ chatForm.addEventListener("submit", async (e) => {
         item.appendChild(subtitle);
         item.appendChild(badge);
 
-        item.addEventListener("click", () => openRequestDetail(req.id, false));
+        item.addEventListener("click", () => openRequestDetail(req.request_id, false)
         adminRequestsList.appendChild(item);
       });
   }
@@ -313,7 +313,7 @@ chatForm.addEventListener("submit", async (e) => {
   await apiGetRequestsForTeacher(getCurrentTeacherName());
 
   const req = requests.find(r =>
-  String(r.id) === String(requestId)
+  String(r.request_id) === String(requestId)
 );
 
   if (!req) {
