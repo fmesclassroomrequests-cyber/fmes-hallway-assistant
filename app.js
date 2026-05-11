@@ -448,12 +448,15 @@ header.addEventListener("click", () => {
 // ----- ADMIN LOGIN -----
 
 adminLoginConfirm.addEventListener("click", async () => {
-
+console.log("Admin login button clicked");
+  
   const enteredHash =
     simpleHash(adminPasswordInput.value);
 
   if (enteredHash === ADMIN_PASSWORD_HASH) {
 
+    console.log("Password accepted");
+    
     isAdmin = true;
 
     adminLoginOverlay.style.display = "none";
