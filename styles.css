@@ -286,6 +286,14 @@ header {
   color: var(--color-gray-medium);
 }
 
+.detail-description {
+  margin-top: 6px;
+  padding: 10px;
+  background: #f5f5f5;
+  border-radius: 8px;
+  white-space: pre-wrap;
+}
+
 /* ------------------------------------------------------------
    11. BADGES
    ------------------------------------------------------------ */
