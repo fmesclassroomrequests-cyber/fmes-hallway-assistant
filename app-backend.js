@@ -65,9 +65,24 @@ async function apiGetRequestsForTeacher(teacherName) {
 }));
 }
 
-async function apiGetAllRequests(){
-  const response = await apiRequest("getAllRequests");
-  return response.data ||[]
+async function apiGetAllRequests() {
+  const data = await callBackend({
+    action: "getAllRequests"
+  });
+
+  return data.map(r => ({
+    id: String(r.request_id || ""),
+    teacherName: r.teacher_id || "Unknown Teacher",
+    location: r.room || "Unknown Room",
+    requestType: r.category || "General Request",
+    description: r.description || "",
+    status: r.status || "New",
+    createdAt: r.created_at || null,
+    completedAt:
+      r.status === "Completed"
+        ? r.updated_at || null
+        : null,
+  }));
 }
 
 async function apiAddRequest({ teacherName, location, requestType, description, photoDataUrl }) {
