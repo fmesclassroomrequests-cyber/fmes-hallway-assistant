@@ -252,7 +252,7 @@ visible.forEach(req => {
       .forEach(req => {
         const item = document.createElement("div");
         item.className = "list-item";
-        item.dataset.requestId = req.id;
+        item.dataset.requestId = req.id || req.request_id;
 
         const title = document.createElement("div");
         title.className = "title";
@@ -270,7 +270,7 @@ visible.forEach(req => {
         item.appendChild(subtitle);
         item.appendChild(badge);
 
-        item.addEventListener("click", () => openRequestDetail(req.request_id, false));
+        item.addEventListener("click", () => openRequestDetail(req.id || req.request_id, true));
         adminRequestsList.appendChild(item);
       });
   }
@@ -316,7 +316,7 @@ visible.forEach(req => {
   await apiGetRequestsForTeacher(getCurrentTeacherName());
 
   const req = requests.find(r =>
-  String(r.request_id) === String(requestId)
+  String(r.id || r.request_id) === String(requestId)
 );
 
   if (!req) {
