@@ -230,7 +230,7 @@ visible.forEach(req => {
       item.appendChild(subtitle);
       item.appendChild(badge);
 
-      item.addEventListener("click", () => openRequestDetail(req.request_id, false));
+      item.addEventListener("click", () => openRequestDetail(req.id, false));
       myRequestsList.appendChild(item);
     });
   }
@@ -270,7 +270,7 @@ visible.forEach(req => {
         item.appendChild(subtitle);
         item.appendChild(badge);
 
-        item.addEventListener("click", () => openRequestDetail(req.id || req.request_id, true));
+        item.addEventListener("click", () => openRequestDetail(req.request_id, true));
         adminRequestsList.appendChild(item);
       });
   }
@@ -315,8 +315,7 @@ visible.forEach(req => {
   const requests =
   await apiGetRequestsForTeacher(getCurrentTeacherName());
 
-  const req = requests.find(r =>
-  String(r.id || r.request_id) === String(requestId)
+  const req = requests.find(r => r.id == request_id || r.request_id == requestID)
 );
 
   if (!req) {
