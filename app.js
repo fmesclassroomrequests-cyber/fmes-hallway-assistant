@@ -312,8 +312,9 @@ visible.forEach(req => {
 
   currentRequestId = requestId;
 
-  const requests =
-  await apiGetRequestsForTeacher(getCurrentTeacherName());
+  const requests = adminMode
+  ? await apiGetAllRequests()
+  : await apiGetRequestsForTeacher(getCurrentTeacherName());
 
   const req = requests.find(r => r.id == requestId || r.request_id == requestId);
 
