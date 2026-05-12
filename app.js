@@ -49,6 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const detailTeacher = document.getElementById("detail-teacher");
   const detailLocation = document.getElementById("detail-location");
   const detailType = document.getElementById("detail-type");
+  const detailDescription = document.getElementById("detail-description");
   const detailStatus = document.getElementById("detail-status");
   const detailSubmitted = document.getElementById("detail-submitted");
   const detailPhotoWrapper = document.getElementById("detail-photo-wrapper");
@@ -333,6 +334,9 @@ visible.forEach(req => {
   detailType.textContent =
     req.category || req.requestType || "";
 
+  detailDescription.textContent =
+    req.description || "";
+    
   detailStatus.textContent =
     req.status || "";
 
