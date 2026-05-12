@@ -65,6 +65,11 @@ async function apiGetRequestsForTeacher(teacherName) {
 }));
 }
 
+async function apiGetAllRequests(){
+  const response = await apiRequest("getAllRequests");
+  return response.data ||[]
+}
+
 async function apiAddRequest({ teacherName, location, requestType, description, photoDataUrl }) {
   const result = await callBackend({
     action: "addRequest",
