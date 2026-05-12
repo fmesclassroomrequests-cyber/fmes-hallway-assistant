@@ -209,13 +209,28 @@ chatForm.addEventListener("submit", async (e) => {
 );
 
 visible.forEach(req => {
+
   const item = document.createElement("div");
   item.className = "list-item";
+
+  if (req.status === "New") {
+    item.classList.add("status-new");
+  }
+
+  if (req.status === "Seen") {
+    item.classList.add("status-seen");
+  }
+
+  if (req.status === "Completed") {
+    item.classList.add("status-completed");
+  }
+
   item.dataset.requestId = req.request_id;
 
   const title = document.createElement("div");
   title.className = "title";
-  title.textContent = `${req.room || req.location} – ${req.category || req.requestType}`;
+  title.textContent =
+    `${req.room || req.location} – ${req.category || req.requestType}`;
 
   const subtitle = document.createElement("div");
   subtitle.className = "subtitle";
@@ -231,7 +246,7 @@ visible.forEach(req => {
       item.appendChild(subtitle);
       item.appendChild(badge);
 
-      item.addEventListener("click", () => openRequestDetail(req.id, false));
+      item.addEventListener("click", () => openRequestDetail(req.id || req.request_id, false));
       myRequestsList.appendChild(item);
     });
   }
