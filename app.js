@@ -315,7 +315,7 @@ visible.forEach(req => {
   const requests =
   await apiGetRequestsForTeacher(getCurrentTeacherName());
 
-  const req = requests.find(r => r.id == request_id || r.request_id == requestID);
+  const req = requests.find(r => r.id == requestId || r.request_id == requestId);
 
 
   if (!req) {
