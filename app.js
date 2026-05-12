@@ -325,6 +325,16 @@ visible.forEach(req => {
     return;
   }
 
+  if (adminMode && req.status === "New") {
+
+    await apiUpdateRequestStatus(
+      requestId,
+      "Seen"
+    );
+
+    req.status = "Seen";
+  }
+    
   detailTeacher.textContent =
     req.teacher_id || req.teacherName || "";
 
