@@ -213,18 +213,6 @@ visible.forEach(req => {
   const item = document.createElement("div");
   item.className = "list-item";
 
-  if (req.status === "New") {
-    item.classList.add("status-new");
-  }
-
-  if (req.status === "Seen") {
-    item.classList.add("status-seen");
-  }
-
-  if (req.status === "Completed") {
-    item.classList.add("status-completed");
-  }
-
   item.dataset.requestId = req.request_id;
 
   const title = document.createElement("div");
@@ -239,8 +227,21 @@ visible.forEach(req => {
   );
 
   const badge = document.createElement("span");
-  badge.className = "badge";
-  badge.textContent = req.status || "New";
+badge.className = "badge";
+
+if (req.status === "New") {
+  badge.classList.add("status-new");
+}
+
+if (req.status === "Seen") {
+  badge.classList.add("status-seen");
+}
+
+if (req.status === "Completed") {
+  badge.classList.add("status-completed");
+}
+
+badge.textContent = req.status || "New";
 
       item.appendChild(title);
       item.appendChild(subtitle);
@@ -474,7 +475,7 @@ btnBackToList.addEventListener("click", () => {
 
     alert("Request marked complete.");
 
-    await loadRequests();
+    await renderAdminRequests();
 
     switchView("home");
 });
