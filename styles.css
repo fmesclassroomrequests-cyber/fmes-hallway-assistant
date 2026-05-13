@@ -306,6 +306,23 @@ header {
   color: var(--color-gold);
 }
 
+/* STATUS COLORS */
+
+.status-new {
+  background: #C8A951;
+  color: white;
+}
+
+.status-seen {
+  background: #C94A4A;
+  color: white;
+}
+
+.status-completed {
+  background: #4CAF50;
+  color: white;
+}
+
 /* ------------------------------------------------------------
    12. CHAT THREAD
    ------------------------------------------------------------ */
