@@ -365,6 +365,20 @@ visible.forEach(req => {
   detailStatus.textContent =
     req.status || "";
 
+  detailStatus.className = "badge";
+
+  if (req.status === "New") {
+    detailStatus.classList.add("status-new");
+  }
+
+  if (req.status === "Seen") {
+    detailStatus.classList.add("status-seen");
+  }
+
+  if (req.status === "Completed") {
+    detailStatus.classList.add("status-completed");
+  }
+
   detailSubmitted.textContent =
     formatTimestamp(req.created_at || req.createdAt);
 
