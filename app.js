@@ -461,6 +461,24 @@ btnBackToList.addEventListener("click", () => {
     renderChatThread(currentRequestId);
 });
 
+  document
+  .getElementById("btn-complete-request")
+  .addEventListener("click", async () => {
+
+    if (!currentRequestId) return;
+
+    await apiUpdateRequestStatus(
+      currentRequestId,
+      "Completed"
+    );
+
+    alert("Request marked complete.");
+
+    await loadRequests();
+
+    switchView("home");
+});
+
 // ----- SECRET ADMIN TAP -----
 
 header.addEventListener("click", () => {
