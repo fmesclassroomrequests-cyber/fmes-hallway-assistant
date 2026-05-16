@@ -280,8 +280,22 @@ badge.textContent = req.status || "New";
         subtitle.textContent = `${req.teacher_id} • ${formatTimestamp(req.created_at)}`;
 
         const badge = document.createElement("span");
+
         badge.className = "badge";
-        badge.textContent = req.status;
+
+        if (req.status === "New") {
+        badge.classList.add("badge-new");
+      }      
+
+        if (req.status === "Seen") {
+        badge.classList.add("badge-seen");
+      }
+
+        if (req.status === "Completed") {
+        badge.classList.add("badge-completed");
+      }
+
+        badge.textContent = req.status || "New";
 
         item.appendChild(title);
         item.appendChild(subtitle);
