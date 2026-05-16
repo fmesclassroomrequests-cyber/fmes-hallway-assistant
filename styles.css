@@ -308,19 +308,22 @@ header {
 
 /* STATUS COLORS */
 
-.status-new {
-  background: #C8A951;
-  color: white;
+.badge-new {
+  background: #fff8e1;
+  border-color: #c8a951;
+  color: #9a7b20;
 }
 
-.status-seen {
-  background: #C94A4A;
-  color: white;
+.badge-seen {
+  background: #e3f2fd;
+  border-color: #2196f3;
+  color: #1565c0;
 }
 
-.status-completed {
-  background: #4CAF50;
-  color: white;
+.badge-completed {
+  background: #e8f5e9;
+  border-color: #4caf50;
+  color: #2e7d32;
 }
 
 /* ------------------------------------------------------------
