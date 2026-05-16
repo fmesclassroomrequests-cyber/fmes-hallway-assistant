@@ -355,7 +355,13 @@ badge.textContent = req.status || "New";
     return;
   }
 
-  if (adminMode && req.status === "New") {
+    if (adminMode) {
+    completeRequestBtn.style.display = "inline-block";
+    } else {
+    completeRequestBtn.style.display = "none";
+    }
+
+    if (adminMode && req.status === "New") {
 
     await apiUpdateRequestStatus(
       requestId,
