@@ -140,3 +140,17 @@ async function apiAddChatMessage({ requestId, sender, text }) {
     message: text,
   });
 }
+
+async function apiGetBannerState() {
+  return await callBackend({
+    action: "getBannerState"
+  });
+}
+
+async function apiSetBannerState(enabled, text) {
+  return await callBackend({
+    action: "setBannerState",
+    enabled,
+    text
+  });
+}
