@@ -173,45 +173,50 @@ chatForm.addEventListener("submit", async (e) => {
     }
   }
 
-  function loadSchedule() {
-    const stored = localStorage.getItem("fmes_schedule");
-    if (stored) {
-      scheduleText.textContent = stored;
-      adminScheduleText.value = stored;
-    } else {
-      adminScheduleText.value = scheduleText.textContent.trim();
-    }
-  }
+async function loadSchedule() {
+  const state = await apiGetSchedule();
 
-  function saveSchedule() {
-    const text = adminScheduleText.value;
-    localStorage.setItem("fmes_schedule", text);
-    scheduleText.textContent = text;
-  }
+  const text =
+    state.text ||
+    scheduleText.textContent.trim();
 
-function loadBannerState() {
-  const stored = localStorage.getItem("fmes_banner_on");
-  const isOn = stored === "true";
-
-  toggleOutOfBuilding.checked = isOn;
-
-  banner.textContent =
-    "Michael is out of the school today. Please contact the front office for custodial assistance.";
-
-  banner.classList.add("banner-error");
-  banner.style.display = isOn ? "block" : "none";
+  scheduleText.textContent = text;
+  adminScheduleText.value = text;
 }
 
-function saveBannerState() {
-  const isOn = toggleOutOfBuilding.checked;
+async function saveSchedule() {
+  const text = adminScheduleText.value;
 
-  localStorage.setItem("fmes_banner_on", String(isOn));
+  const state = await apiSetSchedule(text);
+
+  scheduleText.textContent = state.text || text;
+  adminScheduleText.value = state.text || text;
+}
+
+async function loadBannerState() {
+  const state = await apiGetBannerState();
+
+  toggleOutOfBuilding.checked = !!state.enabled;
 
   banner.textContent =
+    state.text ||
     "Michael is out of the school today. Please contact the front office for custodial assistance.";
 
   banner.classList.add("banner-error");
-  banner.style.display = isOn ? "block" : "none";
+  banner.style.display = state.enabled ? "block" : "none";
+}
+
+async function saveBannerState() {
+  const isOn = toggleOutOfBuilding.checked;
+
+  const state = await apiSetBannerState(isOn);
+
+  banner.textContent =
+    state.text ||
+    "Michael is out of the school today. Please contact the front office for custodial assistance.";
+
+  banner.classList.add("banner-error");
+  banner.style.display = state.enabled ? "block" : "none";
 }
   
   function generateRequestId() {
