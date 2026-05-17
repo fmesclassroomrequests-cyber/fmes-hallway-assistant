@@ -101,10 +101,6 @@ requestForm.addEventListener("submit", async (e) => {
   }
 });
 
-  await renderMyRequests();
-  switchView("myRequests");
-});
-
 chatForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   if (!chatInput.value.trim()) return;
