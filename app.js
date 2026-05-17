@@ -213,7 +213,7 @@ function saveBannerState() {
   banner.classList.add("banner-error");
   banner.style.display = isOn ? "block" : "none";
 }
-  }
+  
   function generateRequestId() {
     return "req_" + Date.now() + "_" + Math.floor(Math.random() * 100000);
   }
