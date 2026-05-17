@@ -500,6 +500,24 @@ btnBackToList.addEventListener("click", () => {
     switchView("home");
 });
 
+  // AUTO REFRESH REQUEST LISTS EVERY 30 SECONDS
+  setInterval(async () => {
+    try {
+    const currentView =
+      document.querySelector(".active-view")?.id;
+
+    if (currentView === "view-my-requests") {
+      await renderMyRequests();
+    }
+
+    if (currentView === "view-admin-requests") {
+      await renderAdminRequests();
+    }
+  } catch (err) {
+    console.error("Auto refresh failed:", err);
+  }
+  }, 30000);
+
 // ----- SECRET ADMIN TAP -----
 
 header.addEventListener("click", () => {
