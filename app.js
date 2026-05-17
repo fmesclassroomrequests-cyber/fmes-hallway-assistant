@@ -513,7 +513,12 @@ badge.textContent = req.status || "New";
 }
 // ----- BUTTONS / EVENT LISTENERS -----
 toggleOutOfBuilding.addEventListener("change", saveBannerState);
-
+    
+btnSaveSchedule.addEventListener("click", async () => {
+  await saveSchedule();
+  alert("Schedule saved.");
+});  
+  
 requestForm.addEventListener("submit", async (e) => {
 });
 
@@ -560,9 +565,7 @@ btnBackToList.addEventListener("click", () => {
     );
 
     alert("Request marked complete.");
-
     await renderAdminRequests();
-
     switchView("home");
 });
 
