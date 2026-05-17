@@ -59,18 +59,47 @@ document.addEventListener("DOMContentLoaded", () => {
 requestForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const teacherName = getCurrentTeacherName();
-  const location = document.getElementById("location").value;
-  const requestType = document.getElementById("request-type").value;
-  const description = document.getElementById("description").value;
+  const submitBtn =
+    requestForm.querySelector('button[type="submit"]');
 
-  const requestId = await apiAddRequest({
-    teacherName,
-    location,
-    requestType,
-    description,
-    photoDataUrl: null
-  });
+  try {
+    // Prevent double-click submissions
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Submitting...";
+
+    const teacherName = getCurrentTeacherName();
+    const location =
+      document.getElementById("location").value;
+    const requestType =
+      document.getElementById("request-type").value;
+    const description =
+      document.getElementById("description").value;
+
+    const requestId = await apiAddRequest({
+      teacherName,
+      location,
+      requestType,
+      description,
+      photoDataUrl: null
+    });
+
+    alert("Request submitted successfully.");
+
+    // Optional: reset form
+    requestForm.reset();
+
+    // Optional: return to home screen
+    switchView("home");
+
+  } catch (err) {
+    console.error("Request submission failed:", err);
+    alert("There was a problem submitting your request.");
+  } finally {
+    // Re-enable the button no matter what
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Submit Request";
+  }
+});
 
   await renderMyRequests();
   switchView("myRequests");
@@ -193,7 +222,7 @@ chatForm.addEventListener("submit", async (e) => {
       if (r.status === "Completed" && r.completedAt) {
         const completedTime = new Date(r.completedAt).getTime();
         const diffHours = (now - completedTime) / (1000 * 60 * 60);
-        return diffHours <= 48;
+        return diffHours <= 24; //kep for 24 hours
       }
       return r.status !== "Archived";
     });
@@ -257,7 +286,26 @@ badge.textContent = req.status || "New";
 
     adminRequestsList.innerHTML = "";
 
-    const visible = requests.filter(r => r.status !== "Archived");
+    const now = Date.now();
+
+  const visible = requests.filter(r => {
+    // Always hide archived requests
+    if (r.status === "Archived") {
+    return false;
+  }
+
+    // Show all non-completed requests
+    if (r.status !== "Completed") {
+    return true;
+  }
+
+    // For completed requests, keep visible for 48 hours
+    const completedTime = new Date(
+    r.updated_at || r.completedAt || r.created_at || r.createdAt
+    ).getTime();
+
+    return (now - completedTime) < (48 * 60 * 60 * 1000);
+  });
 
     if (visible.length === 0) {
       adminRequestsList.innerHTML = `<p class="subtitle">No requests yet.</p>`;
