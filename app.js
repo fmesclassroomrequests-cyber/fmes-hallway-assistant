@@ -510,7 +510,6 @@ badge.textContent = req.status || "New";
 toggleOutOfBuilding.addEventListener("change", saveBannerState);
 
 requestForm.addEventListener("submit", async (e) => {
-  ...
 });
 
 btnNewRequest.addEventListener("click", () => {
