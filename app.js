@@ -189,19 +189,31 @@ chatForm.addEventListener("submit", async (e) => {
     scheduleText.textContent = text;
   }
 
-  function loadBannerState() {
-    const stored = localStorage.getItem("fmes_banner_on");
-    const isOn = stored === "true";
-    toggleOutOfBuilding.checked = isOn;
-    banner.style.display = isOn ? "block" : "none";
-  }
+function loadBannerState() {
+  const stored = localStorage.getItem("fmes_banner_on");
+  const isOn = stored === "true";
 
-  function saveBannerState() {
-    const isOn = toggleOutOfBuilding.checked;
-    localStorage.setItem("fmes_banner_on", String(isOn));
-    banner.style.display = isOn ? "block" : "none";
-  }
+  toggleOutOfBuilding.checked = isOn;
 
+  banner.textContent =
+    "Michael is out of the school today. Please contact the front office for custodial assistance.";
+
+  banner.classList.add("banner-error");
+  banner.style.display = isOn ? "block" : "none";
+}
+
+function saveBannerState() {
+  const isOn = toggleOutOfBuilding.checked;
+
+  localStorage.setItem("fmes_banner_on", String(isOn));
+
+  banner.textContent =
+    "Michael is out of the school today. Please contact the front office for custodial assistance.";
+
+  banner.classList.add("banner-error");
+  banner.style.display = isOn ? "block" : "none";
+}
+  }
   function generateRequestId() {
     return "req_" + Date.now() + "_" + Math.floor(Math.random() * 100000);
   }
@@ -495,6 +507,12 @@ badge.textContent = req.status || "New";
   chatThread.scrollTop = chatThread.scrollHeight;
 }
 // ----- BUTTONS / EVENT LISTENERS -----
+toggleOutOfBuilding.addEventListener("change", saveBannerState);
+
+requestForm.addEventListener("submit", async (e) => {
+  ...
+});
+
 btnNewRequest.addEventListener("click", () => {
     saveTeacherNameIfNeeded();
     switchView("newRequest");
