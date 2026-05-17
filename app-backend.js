@@ -154,3 +154,16 @@ async function apiSetBannerState(enabled, text) {
     text
   });
 }
+
+async function apiGetSchedule() {
+  return await callBackend({
+    action: "getSchedule"
+  });
+}
+
+async function apiSetSchedule(text) {
+  return await callBackend({
+    action: "setSchedule",
+    text
+  });
+}
