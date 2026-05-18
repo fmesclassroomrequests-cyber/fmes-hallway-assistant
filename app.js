@@ -45,6 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const chatThread = document.getElementById("chat-thread");
   const chatForm = document.getElementById("chat-form");
   const chatInput = document.getElementById("chat-input");
+  const completeRequestBtn = document.getElementById("btn-complete-request");
 
   const detailTeacher = document.getElementById("detail-teacher");
   const detailLocation = document.getElementById("detail-location");
